@@ -3,7 +3,7 @@ var trackMoves;
 const user = "O";
 const computer = "X";
 // Store array of winners
-const checkIfWin = [
+const winCombo = [
   [0, 1, 2],
   [3, 4, 5],
   [6, 7, 8],
@@ -18,6 +18,7 @@ const cells = document.querySelectorAll(".cell")
 start();
 
 function start() {
+  document.querySelector(".endgame").style.display = "none";
   // Create arrays of every number from 0 - 9 elememts and just the keys elememts
   trackMoves = Array.from(Array(9).keys());
   // Clear cells when game started
@@ -31,10 +32,12 @@ function start() {
 }
 
 function turnClick(eachCell) {
-  // Log the ID every time its clicked
-  console.log(eachCell.target.id);
+  // Log the ID every time its clicked and called user
+  turn(eachCell.target.id, user);
 }
 
-// functions: start(), stop(), movesCount(), timer()
-
-// Empty array to store x & o and check the result
+function turn(eachCellID, player) {
+  trackMoves[eachCellID] = player;
+  // Display X or O
+  document.getElementById(eachCellID).innerText = player;
+}
