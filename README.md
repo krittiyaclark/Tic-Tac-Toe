@@ -6,4 +6,4 @@ Tic-Tac-Toe game using HTML, CSS, JavaScript
 * Open the `index.html` in the browser
 
 # Play live game
-* https://krittiyaclark.github.io/Tic-Tac-Toe
+* https://hard-weather.surge.sh
