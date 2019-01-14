@@ -22,7 +22,7 @@ function start() {
   // Create arrays of every number from 0 - 9 elememts and just the keys elememts
   trackMoves = Array.from(Array(9).keys());
   // Clear cells when game started
-  for(let i = 1; i < cells.length; i++) {
+  for(var i = 0; i < cells.length; i++) {
     cells[i].innerText = ""
     // Remove background colors
     cells[i].style.removeProperty("background-color");
@@ -40,4 +40,29 @@ function turn(eachCellID, player) {
   trackMoves[eachCellID] = player;
   // Display X or O
   document.getElementById(eachCellID).innerText = player;
+  let gameWon = checkWin(trackMoves, player)
+  // If gameWon run gameOver
+  if (gameWon) gameOver (gameWon)
+}
+
+function checkWin(board, player) {
+  let plays = board.reduce((a, e, i) =>
+    (e === player) ? a.concat(i) : a, []);
+    let gameWon = null;
+    for (let [index, win] of winCombo.entries()) {
+      // Has the player played in every spots that counts as a win
+      if (win.every(elem => plays.indexOf(elem) > -1)) {
+        gameWon = {index: index, player: player};
+      break;
+    }
+  }
+  return gameWon;
+}
+
+function gameOver(gameWon) {
+  for (let index of winCombo[gameWon.index]) {
+    // If we have a winner, can not click on cells anymore
+    document.getElementById(index).style.backgroundColor =
+      gameWon.player === user ? "blue" : "pink";
+  }
 }
