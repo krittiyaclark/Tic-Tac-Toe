@@ -32,8 +32,12 @@ function start() {
 }
 
 function turnClick(eachCell) {
-  // Log the ID every time its clicked and called user
-  turn(eachCell.target.id, user);
+  if (typeof trackMoves[eachCell.target.id] == "number") {
+    // Log the ID every time its clicked and called user
+    turn(eachCell.target.id, user);
+    // Check if it is a tie
+    if (!checkTie()) turn(bestSpot(), computer);
+    }
 }
 
 function turn(eachCellID, player) {
@@ -65,4 +69,34 @@ function gameOver(gameWon) {
     document.getElementById(index).style.backgroundColor =
       gameWon.player === user ? "blue" : "pink";
   }
+  for (var i = 0; i < cells.length; i++) {
+		cells[i].removeEventListener('click', turnClick, false);
+	}
+	declareWinner(gameWon.player == user ? "You win!" : "You lose.");
+}
+
+// computer
+function declareWinner(who) {
+	document.querySelector(".endgame").style.display = "block";
+	document.querySelector(".endgame .popUPModul").innerText = who;
+}
+
+function emptySquares() {
+	return trackMoves.filter(s => typeof s == "number");
+}
+
+function bestSpot() {
+	return emptySquares()[0];
+}
+
+function checkTie() {
+	if (emptySquares().length == 0) {
+		for (var i = 0; i < cells.length; i++) {
+			cells[i].style.backgroundColor = "green";
+			cells[i].removeEventListener("click", turnClick, false);
+		}
+		declareWinner("Tie Game!")
+		return true;
+	}
+	return false;
 }
